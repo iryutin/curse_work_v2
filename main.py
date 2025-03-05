@@ -1,16 +1,30 @@
-# This is a sample Python script.
+from src.file_seve import Json
+from src.request_class import HeadHunterAPI
+from src.support_function import (
+    cast_to_object_list,
+    cast_to_object_list_new,
+    filtered_vacancies,
+    get_top_vacancies,
+)
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+
+def user():
+    hh_api = HeadHunterAPI()
+
+    keyword = input("Введите поисковый запрос: ")
+    json_file = Json("vacancies")
+
+    json_file.json_save(cast_to_object_list_new(hh_api.get_vacancies(keyword)))
+
+    list_object = cast_to_object_list(json_file.json_give())
+
+    filter_words = input("Введите ключевые слова для фильтрации вакансий: ").split()
+
+    list_object_filter = filtered_vacancies(filter_words, list_object)
+
+    top_n = input("Введите количество вакансий для вывода в топ N: ")
+
+    get_top_vacancies(top_n, list_object_filter)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+user()

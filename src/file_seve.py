@@ -23,16 +23,17 @@ class Abstract_Json(ABC):
 class Json(Abstract_Json):
     """Класс для json файла"""
 
-    def __init__(self, keyword):
+    def __init__(self, keyword: str = 'Vacancies'):
         self.__filename = f"{keyword.title()}.json"
         with open(self.__filename, "w", encoding="utf-8") as file:
             json.dump([], file)
 
     def json_give(self):
+        """Подгрузка из файлов json"""
         with open(self.__filename, "r", encoding="utf-8") as file:
             return json.load(file)
 
-    def json_save(self, list_object):
+    def json_save(self, list_object: list):
         """Записывает информацию в файл с фильтром на дубликаты"""
         old_vacancies = self.json_give()
         new_list = []
@@ -52,6 +53,7 @@ class Json(Abstract_Json):
             json.dump(old_vacancies, file, indent=4, ensure_ascii=False)
 
     def json_delite(self, vacansy_name: str):
+        """Удаление вакансий из файлов"""
         old_vacancies = self.json_give()
         for index, vacancy in enumerate(old_vacancies):
             if vacancy.get("name", "pass") == vacansy_name:

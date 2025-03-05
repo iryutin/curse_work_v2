@@ -8,12 +8,21 @@ class One_Vacancy:
     snippet: str
 
     def __init__(self, name, pay, url, snippet):
-        self.pay = pay
+
+        self.pay = self.pay_chek(pay)
         self.name = name
         self.url = url
         self.snippet = snippet
 
-    def __call__(self, other):
+    def pay_chek(self, pay):
+        """Проверяет значение зп"""
+        if int(pay) < 0 or pay is None:
+            return '0'
+        else:
+            return pay
+
+
+    def __lt__(self, other):
         """Сравнение зп"""
         if type(self) is type(other):
             if self.pay > other.pay:
